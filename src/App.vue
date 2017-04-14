@@ -1,7 +1,7 @@
 <template>
   <div class="App">
     <div class="App--header">
-      <h2>Welcome to React and Firebase</h2>
+      <h2>Welcome to Vue and Firebase</h2>
     </div>
     <pre class="App--data">
       {{ $data }}
