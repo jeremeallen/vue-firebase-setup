@@ -1,28 +1,64 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+  <div class="App">
+    <div class="App--header">
+      <h2>Welcome to React and Firebase</h2>
+    </div>
+    <pre class="App--data">
+      {{ $data }}
+    </pre>
+
+    <form class='App--form' @submit.prevent='handleSubmit'>
+      <input type='text' v-model="newData" />
+      <input type='submit' />
+    </form>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello';
+
+import { database } from './firebase';
 
 export default {
   name: 'app',
-  components: {
-    Hello,
+  data() {
+    return {
+      data: null,
+      newData: '',
+    };
+  },
+  created() {
+    database.ref().on('value', (snapshot) => {
+      this.data = snapshot.val();
+      this.newData = '';
+    });
+  },
+  methods: {
+    handleSubmit() {
+      database.ref().child('AMAZING NEW DATA').set(this.newData);
+    },
   },
 };
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.App--header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+.App--data {
+  margin: auto;
+  padding: 1em;
+  background-color: #EEE;
+  border: 1px solid #CCC;
+}
+
+.App-form {
+  text-align: center;
+  font-size: 1.4em;
 }
 </style>
+
